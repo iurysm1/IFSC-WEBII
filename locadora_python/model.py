@@ -21,7 +21,7 @@ class NMotorizados:
 
 class Motorizados(NMotorizados):
     def __init__(self, placa, marca, modelo, ano, valor_locacao, quilometragemInicial, quilometragemFinal, potencia, taxa_quilometragem):
-        super().__init__(self, placa, marca, modelo, ano, valor_locacao)
+        super().__init__(placa, marca, modelo, ano, valor_locacao)
         self.quilometragemInicial=quilometragemInicial
         self.quilometragemFinal=quilometragemFinal
         self.potencia=potencia
@@ -56,7 +56,7 @@ class Locacao_nmotorizado:
                 ===Locaçao não motorizada===
                 Veiculo: {self.veiculo.modelo}
                 Dias locado: {self.dias_locado}
-                Total: {Total_locacao}
+                Total: {self.total()}
                 """
 
 class Locacao_motorizado:
@@ -73,7 +73,7 @@ class Locacao_motorizado:
                 ===Locaçao motorizada===
                 Veiculo: {self.veiculo.modelo}
                 Dias locado: {self.dias_locado}
-                Total: {Total_locacao}
+                Total: {self.total()}
                 """
 
 class Total_locacao:
@@ -89,13 +89,17 @@ class Total_locacao:
         maiorLocacao=0
         maiorLocacaoStr=""
         valorTotalLocacao=0
+
         for locacao in self.itens:
             resumo+=locacao.__str__()
             valorTotalLocacao+=locacao.total()
             if locacao.total()>maiorLocacao:
                 maiorLocacao=locacao.total()
                 maiorLocacaoStr=locacao.veiculo.modelo
-        resumo+=f"a maior locação foi a: {maiorLocacaoStr}"
+
+        resumo+=f"A maior locação foi a do veiculo: {maiorLocacaoStr};"
+        resumo+=f"\nO total de todas as locações foi de: {valorTotalLocacao}."
+        return resumo
 
 
 
