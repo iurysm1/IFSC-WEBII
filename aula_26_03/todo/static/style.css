@@ -1,0 +1,11 @@
+.container {
+    position: relative;
+}
+ 
+.well {
+    width: 400px;
+    position: absolute;
+    top: 10%;
+    right: 50%;
+    
+}
