@@ -1,5 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Home Page</h1>
+    <h1>Lista de tarefas</h1>
+    <form method="POST">
+        {% for task in user.tasks %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {% if task.complete==True %}
+                            <input type="checkbox" name="c{{task.id}}" value="clicked" checked>
+                        {% else %}
+                            <input type="checkbox" name="c{{task.id}}" value="clicked">
+                        {% endif %}
+                    </div>
+                </div>
+                <input type="text" value="{{task.name}}" class="form-control">
+            </div>
+        {% endfor %}
+
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button type="submit" name="newTask" value="newTask" class="btn btn-success">Nova tarefa</button>
+            </div>
+            <input type="text" name="nova">
+        </div>
+
+        <button type="submit" name="save" value="save" class="btn btn-success">Salvar</button>
+    </form>
 {% endblock %}

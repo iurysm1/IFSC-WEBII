@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 DB_NAME = "database.db"
 
-from models import User
+from models import User, Task
 
 app.config['SECRET_KEY'] = 'IFSC@TUB'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
@@ -30,10 +30,26 @@ with app.app_context():
 
 ### Rotas ###
 
-@app.route("/")
+@app.route("/" , methods=["POST", "GET"])
 @login_required
 def home():
-    return render_template("home.html")
+    if request.method == "POST":
+        if request.form.get("save"):
+            for task in current_user.tasks:
+                if request.form.get("c"+ str(task.id))=="clicked":
+                    task.complete = True
+                else:
+                    task.complete = False
+                db.session.commit()
+        elif request.form.get("newTask"):
+            nameTask = request.form.get("nova")
+            if len(nameTask)>2:
+                current_user.tasks.append(Task(name=nameTask, complete=False))
+                db.session.commit()
+                flash('Nova tarefa adicionada', category='sucess')
+            else:
+                flash('Nome da tarefa tem que ter mais de 2 digitos', category='error')
+    return render_template("home.html", user=current_user)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
