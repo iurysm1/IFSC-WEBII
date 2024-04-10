@@ -49,7 +49,9 @@ def home():
                 flash('Nova tarefa adicionada', category='sucess')
             else:
                 flash('Nome da tarefa tem que ter mais de 2 digitos', category='error')
-    return render_template("home.html", user=current_user)
+    return render_template("home.html", user=current_user, form=request.form)
+
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
