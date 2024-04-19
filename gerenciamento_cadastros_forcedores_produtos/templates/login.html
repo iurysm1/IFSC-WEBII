@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block menu %} {% endblock %}
+
+<div class="container">
+{% block content%}
+    <div class="well">
+        <h1>Login</h1>
+        <form method="POST">
+            <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1"
+                name="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">Não vamos compartilhar seu email com mais ninguém.</small>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                name="senha" placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <p>Não tem cadastro? Crie sua conta <a href="{{ url_for('signup') }}">aqui</a>.</p>
+    <div>
+{% endblock %}
+</div>

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Lista de Tarefas</title>
+{% endblock %}
+
+{% block content %}
+  <!--PRODUTOS-->
+
+  <h1 class="mt-5">Lista de produtos</h1>
+    <form method="POST">
+    {% for produto in produtos %}
+    <div class="input-group mb-3">
+        <input type="text" id="produto_{{produto.id}}" value="{{produto.nome}} - R${{produto.preco}} - Fornecedor: {{ get_fornecedor_nome(produto.fornecedor_id) }}" class="form-control" disabled>
+        <button type="button" class="btn btn-danger" onClick="deleteTask({{ produto.id }})">
+            <i class="bi bi-trash"></i>
+        </button>
+        <button id="editProduct" type="button" class="btn btn-primary" 
+            data-toggle="modal" data-target="#modalEdit"
+            data-idProduct="{{ produto.id }}" data-nameProduct="{{ produto.nome }}" data-priceProduct="{{ produto.preco }}" data-estoqueProduct="{{ produto.estoque }}"
+        >
+            <i class="bi bi-pencil"></i>    
+        </button>
+    </div>
+    {% endfor %}
+
+    <button id="adicionar" type="button" class="btn btn-success" 
+            data-toggle="modal" data-target="#modalAddProduct">
+            Adicionar produto<i class="bi bi-plus"></i>    
+    </button>
+    </form>
+
+    <!-- Modal para adição de produto -->
+    <div class="modal fade" id="modalAddProduct" tabindex="-1" role="dialog" aria-labelledby="modalAddProductLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Adicionar um produto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+
+          <form method="POST">
+            <div class="modal-body">
+                <label for="productName">Nome</label>
+                <input type="text" id="productName" class="form-control" name="productName">
+                <label for="productPrice">Preço</label>
+                <input type="text" id="productPrice" class="form-control" name="productPrice">
+                <label for="productEstoque">Estoque inicial</label>
+                <input type="text" class="form-control" name="productEstoque" id="productEstoque">
+                <h6>Fornecedor do produto</h6>
+                {% for fornecedor in fornecedores %}
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                          <div class="input-group-text">               
+                            <input type="checkbox" value="clicked" name="f{{fornecedor.id}}">
+                            <input type="text" value="{{ fornecedor.razao_social }}" class="form-control" disabled>
+                          </div>
+                      </div>
+                  </div>
+                {% endfor %}
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" name="newProduct" value="newProduct">Adicionar</button>
+            </div>     
+          </div>    
+          </form>
+        </div>
+      </div>
+    </div>
+  
+  <!-- Modal para edição de produto -->
+  <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar um produto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+
+        <form method="POST">
+          <div class="modal-body">
+              <input type="hidden" name="productIdEdit" id="productIdEdit">
+
+              <label for="productNameEdit">Nome do produto</label>
+              <input type="text" id="productNameEdit" class="form-control" name="productNameEdit">
+
+
+              <label for="productPriceEdit">Preço</label>
+              <input type="text" id="productPriceEdit" class="form-control" name="productPriceEdit">
+
+
+              <label for="productEstoqueEdit">Estoque inicial</label>
+              <input type="text" class="form-control" name="productEstoqueEdit" id="productEstoqueEdit">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success" name="edit" value="edit">Adicionar</button>
+          </div>         
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

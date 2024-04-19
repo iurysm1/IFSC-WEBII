@@ -1,0 +1,11 @@
+.container {
+    position: relative;
+}
+ 
+.well {
+    margin-top: 50px;
+    margin-left: 20%;
+    margin-right: 20%;
+    display: grid;
+    align-items: center;
+}
