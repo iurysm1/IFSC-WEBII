@@ -52,12 +52,18 @@ def home():
             else:
                 flash("Nome da tarefa tem que ter mais de 2 letras!")
         elif request.form.get("edit"):
+            fornecedores=Fornecedor.query.all()
             print("edit")
             id = request.form.get("productIdEdit")
             produto = db.session.get(Produto, id)
             produto.nome = request.form.get("productNameEdit")
             produto.preco = request.form.get("productPriceEdit")
             produto.estoque = request.form.get("productEstoqueEdit")
+            for fornecedorAtual in fornecedores:
+                if request.form.get("f"+str(fornecedorAtual.id))=="clicked":
+                    produto.fornecedor_id=fornecedorAtual.id
+                    print('entrou')
+            print(produto.fornecedor_id)
             db.session.commit()
             flash("Produto Alterado.")
         elif request.form.get("newProduct"):
@@ -77,10 +83,12 @@ def home():
                     flash("Produto cadastrado.")
                 else:
                     flash("O produto já existe!")
+            else:
+                flash("Selecione um fornecedor.")
         
             
 
-    return render_template("home.html", user=current_user, produtos=Produto.query.all(), get_fornecedor_nome=get_fornecedor_nome, fornecedores=Fornecedor.query.all(), verificaProduto=verificaProduto)
+    return render_template("home.html", user=current_user, produtos=Produto.query.all(), get_fornecedor_nome=get_fornecedor_nome, fornecedores=Fornecedor.query.all(), verificaProduto=verificaProduto, countFornecedores=Fornecedor.query.count())
     # "produtos=Produto.query.all()" -> para usar como uma variavel que pega todos os produtos e faz o laço FOR na pagina HOME
     # "get_fornecedor_nome=get_fornecedor_nome" passei a função para o template como uma variavel global
 
@@ -97,6 +105,10 @@ def verificaProduto(produto):
         return True
     else:
         return False
+    
+
+  
+    
 
 @app.route("/login", methods=['GET','POST'])
 def login():
@@ -158,7 +170,6 @@ def delete_task():
             db.session.delete(task)
             db.session.commit()
     return jsonify({})
-
 
 if __name__ == "__main__":
     app.run(debug=True)

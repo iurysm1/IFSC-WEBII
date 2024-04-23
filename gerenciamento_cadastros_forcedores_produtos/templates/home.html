@@ -17,7 +17,7 @@
         </button>
         <button id="editProduct" type="button" class="btn btn-primary" 
             data-toggle="modal" data-target="#modalEdit"
-            data-idProduct="{{ produto.id }}" data-nameProduct="{{ produto.nome }}" data-priceProduct="{{ produto.preco }}" data-estoqueProduct="{{ produto.estoque }}"
+            data-idProduct="{{ produto.id }}" data-nameProduct="{{ produto.nome }}" data-priceProduct="{{ produto.preco }}" data-estoqueProduct="{{ produto.estoque }}" data-productFornecedorId="{{ produto.fornecedor_id }}" data-countFornecedores="{{ countFornecedores }}"
         >
             <i class="bi bi-pencil"></i>    
         </button>
@@ -87,17 +87,31 @@
         <form method="POST">
           <div class="modal-body">
               <input type="hidden" name="productIdEdit" id="productIdEdit">
+              <input type="hidden" name="productFornecedorId" id="productFornecedorId">
 
               <label for="productNameEdit">Nome do produto</label>
-              <input type="text" id="productNameEdit" class="form-control" name="productNameEdit">
+              <input type="text" id="productNameEdit" class="form-control" name="productNameEdit" value="data-nameProduct">
 
 
               <label for="productPriceEdit">Preço</label>
               <input type="text" id="productPriceEdit" class="form-control" name="productPriceEdit">
 
 
-              <label for="productEstoqueEdit">Estoque inicial</label>
+              <label for="productEstoqueEdit">Estoque atual</label>
               <input type="text" class="form-control" name="productEstoqueEdit" id="productEstoqueEdit">
+
+              <h6>Fornecedor do produto</h6>
+              {% for fornecedor in fornecedores %}
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                          <div class="input-group-text">                            
+                              <input type="checkbox" value="clicked" class="inputFornecedor" id="f{{fornecedor.id}}">
+                              <input type="text" value="{{ fornecedor.razao_social }}" class="form-control" disabled>
+                              <!--Lógica de fazer dar o check no checkbox no documento JS-->
+                          </div>
+                      </div>
+                  </div>
+                {% endfor %}
           </div>
 
           <div class="modal-footer">
