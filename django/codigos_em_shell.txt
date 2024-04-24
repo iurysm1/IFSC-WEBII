@@ -1,0 +1,37 @@
+python manage.py shell --> entra no shell
+
+from main.models immport Item, TodoList --> importar os models do app main (trocar "main pelo app que criou o model)
+
+
+lista = TodoList(name="nome da lista") --> criar uma lista
+
+print(lista) --> mostrar a lista
+
+
+(id da lista só é gravado depois que salva a lista criada, se salva com: lista.save())
+
+
+print(TodoList.objects.all()) --> mostra uma lista todos as todoList
+
+
+TodoList.objects.get(id=1) --> pega todos os objetos com o id = 1
+
+
+TodoList.objects.create(name="Nome da lista") --> cria a lista direto, sem precisar passar uma variavel e depois executar o comando o SuaVariavel.save()
+
+-----------------------------------------------------
+
+lista2= TodoList.objects.get(id=2)
+
+lista.item_set.create(text="Limpar a casa", complete=false) --> o código "nome-da-classe-do-models_set" é uma função do django que faz um relationship (como no flask) automatico, sem precisar instanciar o atributo na classe "TodoList", só funciona se a classe no model tiver uma foreginkey na classe que deseja se relacionar
+
+
+---------------------------------------------------
+
+
+python manage.py createsuperuser ---> cria superusuario para a aplicação, depos disso ele pede para preencher uns campos
+
+
+após importado os models no arquivo admin.py ir até o localhost e coloar a rota /admin, que é uma interface que o proprio django faz para administrar os models
+
+
