@@ -12,10 +12,10 @@
     {% for produto in produtos %}
     <div class="input-group mb-3">
         <input type="text" id="produto_{{produto.id}}" value="{{produto.nome}} - R${{produto.preco}} - Fornecedor: {{ get_fornecedor_nome(produto.fornecedor_id) }}" class="form-control" disabled>
-        <button type="button" class="btn btn-danger" onClick="deleteTask({{ produto.id }})">
+        <button type="button" class="btn btn-danger" onClick="deleteObject({{ produto.id }}, 'produto')">
             <i class="bi bi-trash"></i>
         </button>
-        <button id="editProduct" type="button" class="btn btn-primary" 
+        <button id="editFornecedorModalButton" type="button" class="btn btn-primary" 
             data-toggle="modal" data-target="#modalEdit"
             data-idProduct="{{ produto.id }}" data-nameProduct="{{ produto.nome }}" data-priceProduct="{{ produto.preco }}" data-estoqueProduct="{{ produto.estoque }}" data-productFornecedorId="{{ produto.fornecedor_id }}" data-countFornecedores="{{ countFornecedores }}"
         >
@@ -24,7 +24,7 @@
     </div>
     {% endfor %}
 
-    <button id="adicionar" type="button" class="btn btn-success" 
+    <button id="adicionar" type="button" class="btn btn-success mt-5" 
             data-toggle="modal" data-target="#modalAddProduct">
             Adicionar produto<i class="bi bi-plus"></i>    
     </button>
@@ -105,7 +105,8 @@
                   <div class="input-group mb-3">
                       <div class="input-group-prepend">
                           <div class="input-group-text">                            
-                              <input type="checkbox" value="clicked" class="inputFornecedor" id="f{{fornecedor.id}}">
+                              <input type="checkbox" value="clicked" class="inputFornecedor" 
+                              name="fe{{fornecedor.id}}" id="fe{{fornecedor.id}}">
                               <input type="text" value="{{ fornecedor.razao_social }}" class="form-control" disabled>
                               <!--Lógica de fazer dar o check no checkbox no documento JS-->
                           </div>
@@ -116,7 +117,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success" name="edit" value="edit">Adicionar</button>
+            <button type="submit" class="btn btn-success" name="editFornecedor" value="edit">Editar</button>
           </div>         
         </form>
       </div>

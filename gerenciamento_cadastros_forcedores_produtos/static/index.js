@@ -1,13 +1,33 @@
-function deleteTask(taskId) {
-    fetch("/delete-task", {
+function deleteObject(objectId, typeOfObject) {
+    fetch("/delete-object", {
         method: "POST",
-        body: JSON.stringify({ taskId: taskId}),
+        body: JSON.stringify({ objectId: objectId, typeObject: typeOfObject}),
     }).then((_res) => {
-        window.location.href = "/";
+        if(typeOfObject=="produto"){
+            window.location.href = "/";
+        }else if(typeOfObject=="fornecedor"){
+            window.location.href = "/fornecedores";
+        }
     });
 }
 
+$('#modalEditFornecedor').on('show.bs.modal', function (event) {
 
+    const button = $(event.relatedTarget);
+    console.log(event.relatedTarget)
+    data = button.data();
+    const idFornecedor = data.idfornecedor;
+    const nameFornecedor = data.namefornecedor;
+    const emailFornecedor = data.emailfornecedor;
+    const phoneFornecedor = data.phonefornecedor;
+    const siteFornecedor = data.sitefornecedor;
+
+    $('#idEdit').val(idFornecedor);
+    $('#razao_socialEdit').val(nameFornecedor);
+    $('#emailEdit').val(emailFornecedor);
+    $('#telefoneEdit').val(phoneFornecedor);
+    $('#siteEdit').val(siteFornecedor);
+});
 
 $('#modalEdit').on('show.bs.modal', function (event) {
     
@@ -19,7 +39,7 @@ $('#modalEdit').on('show.bs.modal', function (event) {
     const nameProduct = data.nameproduct;
     const precoProduct = data.priceproduct;
     const quantidadeProduct = data.estoqueproduct;
-    const fornecedorId = data.productfornecedorid; //pega o id do fornecedor do data do mesmo
+    const fornecedorId = data.productfornecedorid; //pega o id do fornecedor do data do botão
     $('#productIdEdit').val(idProduct);
     $('#productNameEdit').val(nameProduct);
     $('#productPriceEdit').val(precoProduct);
@@ -30,7 +50,7 @@ $('#modalEdit').on('show.bs.modal', function (event) {
 
     fornecedores.forEach(function(fornecedorAtual){
         console.log(fornecedorAtual.id+" / "+fornecedorId)
-        if(fornecedorAtual.id=="f"+fornecedorId){
+        if(fornecedorAtual.id=="fe"+fornecedorId){
             fornecedorAtual.checked = true;
         }else{
             fornecedorAtual.checked = false;

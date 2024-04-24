@@ -50,30 +50,30 @@ def home():
                 current_user.tasks.append(Task(name=name, complete=False))  
                 db.session.commit()
             else:
-                flash("Nome da tarefa tem que ter mais de 2 letras!")
+                flash("Nome da tarefa tem que ter mais de 2 letras!", category="error")
         elif request.form.get("edit"):
             fornecedores=Fornecedor.query.all()
-            print("edit")
             id = request.form.get("productIdEdit")
             produto = db.session.get(Produto, id)
             produto.nome = request.form.get("productNameEdit")
             produto.preco = request.form.get("productPriceEdit")
             produto.estoque = request.form.get("productEstoqueEdit")
             for fornecedorAtual in fornecedores:
-                if request.form.get("f"+str(fornecedorAtual.id))=="clicked":
-                    produto.fornecedor_id=fornecedorAtual.id
-                    print('entrou')
-            print(produto.fornecedor_id)
-            db.session.commit()
-            flash("Produto Alterado.")
+                if request.form.get("fe"+str(fornecedorAtual.id))=="clicked":
+                    produto.fornecedor_id=fornecedorAtual.id        
+                    #usei a mesma lógica para marcar se a task foi feita
+                    flash("Produto Alterado.")
+                    db.session.commit()
+            
         elif request.form.get("newProduct"):
+            print('new')
             nome=request.form.get("productName")
             preco=request.form.get("productPrice")
             estoque=request.form.get("productEstoque")
             fornecedor_id=None
             for fornecedorFor in Fornecedor.query.all():
                 if request.form.get("f" + str(fornecedorFor.id)) == "clicked":
-                    fornecedor_id=fornecedorFor.id
+                    fornecedor_id=fornecedorFor.id #usei a mesma lógica para marcar se a task foi feita
 
             if fornecedor_id is not None:  # Verifica se um fornecedor foi selecionado
                 novo_produto = Produto(nome=nome, estoque=estoque, preco=preco, fornecedor_id=fornecedor_id)
@@ -82,9 +82,10 @@ def home():
                     db.session.commit()
                     flash("Produto cadastrado.")
                 else:
-                    flash("O produto já existe!")
+                    flash("O produto já existe!", category="error")
             else:
-                flash("Selecione um fornecedor.")
+                flash("Selecione um fornecedor.", category="error")
+        return redirect(url_for('home'))
         
             
 
@@ -93,9 +94,8 @@ def home():
     # "get_fornecedor_nome=get_fornecedor_nome" passei a função para o template como uma variavel global
 
 def get_fornecedor_nome(fornecedor_id):
-        fornecedor = db.session.get(Fornecedor, fornecedor_id)
-        
-        if fornecedor:
+        if fornecedor_id:
+            fornecedor = db.session.get(Fornecedor, fornecedor_id)
             return fornecedor.razao_social
         else:
             return "Fornecedor não encontrado"
@@ -108,8 +108,44 @@ def verificaProduto(produto):
     
 
   
-    
+@app.route("/fornecedores", methods=['GET', 'POST','PUT'])
+@login_required
+def fornecedores():
+    if request.method == 'POST':
+        if request.form.get("newFornecedor"):
+            razao_social = request.form.get("razao_social")
+            email = request.form.get("email")
+            site = request.form.get("site")
+            telefone = request.form.get("telefone")
+            if len(razao_social) > 2:
+                novo_fornecedor = Fornecedor(razao_social=razao_social, email=email, site=site, telefone=telefone)
+                db.session.add(novo_fornecedor)
+                db.session.commit()
+                flash("Fornecedor cadastrado.")
+            else:
+                flash("Dados inválidos.", category="error")
+        elif request.form.get("editFornecedor"):
+            id = request.form.get("idEdit")
+            fornecedor = db.session.get(Fornecedor, id)
+            if fornecedor:
+                fornecedor.razao_social = request.form.get("razao_socialEdit")
+                fornecedor.email = request.form.get("emailEdit")
+                fornecedor.site = request.form.get("siteEdit")
+                fornecedor.telefone = request.form.get("telefoneEdit")
+                db.session.commit()
+                flash("Fornecedor Alterado.")
+            else:
+                flash("Fornecedor não encontrado.", category="error")
+            
+        return redirect(url_for('fornecedores'))
+            
+    return render_template("fornecedores.html", user=current_user, fornecedores=Fornecedor.query.all(), produtosPorFornecedor=produtosPorFornecedor)
 
+def produtosPorFornecedor(id_fornecedor):
+    fornecedor = db.session.get(Fornecedor, id_fornecedor)
+    if fornecedor:
+        return fornecedor.produtos;
+    
 @app.route("/login", methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -160,17 +196,24 @@ def signup():
     return render_template("signup.html", form=request.form)
 
 
-@app.route("/delete-task", methods=['POST'])
-def delete_task():
-    task = json.loads(request.data)
-    task_id = task['taskId']
-    task = db.session.get(Task, task_id)
-    if task:
-        if task.user_id == current_user.id:
-            db.session.delete(task)
-            db.session.commit()
-    return jsonify({})
+@app.route("/delete-object", methods=['POST'])
+def delete_object():
+    objectRequest = json.loads(request.data)
+    print(objectRequest['typeObject'])
+    if objectRequest['typeObject'] == "produto":
+        print('entrou')
+        product_id = objectRequest['objectId']
+        objectRequest = db.session.get(Produto, product_id)
+    elif objectRequest['typeObject'] == "fornecedor":
+        product_id = objectRequest['objectId']
+        objectRequest = db.session.get(Fornecedor, product_id)
+        
 
+    if objectRequest:
+        db.session.delete(objectRequest)
+        db.session.commit()
+    return jsonify({})
+    #Usei a mesma lógica que ja estava para a exclusão da task, so apliquei no contexto dessa aplicação
 if __name__ == "__main__":
     app.run(debug=True)
 
