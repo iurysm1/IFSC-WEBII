@@ -1,7 +1,71 @@
 .container {
+    text-align: center;
+    width: 70%;
+    height: 90vh;
+    background-color: rgba(255, 255, 255, 0.041);
+    padding: 15px;
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    position: absolute;
+    box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.253);
+}
+
+.container *{
+    color: white
+
+}
+
+.circle{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
     position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 0;
+    animation: jump 3s linear infinite;
+    box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.253);
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0px) !important;
+    }
+    50%{
+        transform: translateY(-10px) !important;
+    }
+    100% {
+        transform: translateY(0px) !important;
+    }
+}
+
+#circle1{
+    right: 25%;
+    bottom: 40%;
+}
+
+#circle2{
+    left: 25%;
+    top: 40%;
+    animation-delay: 1s;
+}
+
+
+input, nav{
+    background-color: rgb(51, 51, 51) !important;
+    border: none !important;
+    border: 12px;
 }
  
+body{
+    background-color: rgb(20, 20, 20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100vh;
+}
+
 .well {
     margin-top: 50px;
     margin-left: 20%;
@@ -9,3 +73,19 @@
     display: grid;
     align-items: center;
 }
+
+.btn-success{
+    background-color: rgba(81, 238, 141, 0.959) !important;
+    border: rgba(81, 238, 141, 0.959);
+}
+
+.btn-primary{
+    background-color: rgba(72, 158, 192, 0.959) !important;
+    border: rgba(72, 158, 192, 0.959);
+}
+
+.btn-danger{
+    background-color: rgba(255, 125, 50, 0.959) !important;
+    border: rgba(255, 125, 50, 0.959);
+}
+

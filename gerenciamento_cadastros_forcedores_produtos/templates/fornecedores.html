@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}
+      <title>Fornecedores</title>
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="mt-5">Fornecedores</h1>
+    <form method="POST">
+    {% for fornecedor in fornecedores %}
+    <div class="input-group mb-0 mt-3" id="fornecedorActions">
+        <input type="text" id="fornecedor_{{fornecedor.id}}" value="{{fornecedor.razao_social}}" class="form-control" disabled>
+        <button type="button" class="btn btn-danger" onClick="deleteObject({{ fornecedor.id }},'fornecedor')">
+            <i class="bi bi-trash"></i>
+        </button>
+        <button id="editFornecedor" type="button" class="btn btn-primary" 
+            data-toggle="modal" data-target="#modalEditFornecedor"
+            data-idFornecedor="{{ fornecedor.id }}" data-nameFornecedor="{{ fornecedor.razao_social }}" data-emailfornecedor="{{ fornecedor.email }}" data-phonefornecedor="{{ fornecedor.telefone }}" data-siteFornecedor="{{ fornecedor.site }}"
+        >
+            <i class="bi bi-pencil"></i>    
+        </button>
+        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample{{fornecedor.id}}" aria-expanded="false" aria-controls="collapseExample">
+            <i class="bi bi-caret-down-fill"></i>
+        </button>
+        <br>
+    </div>
+    <div class="collapse" id="collapseExample{{fornecedor.id}}">
+        {% for produto in produtosPorFornecedor(fornecedor.id) %}
+        <div class="card card-body">
+          <p>{{produto.nome}} - R${{produto.preco}} - Estoque atual: {{produto.estoque}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <button id="buttonAddFornecedor" type="button" class="btn btn-success mt-5" 
+            data-toggle="modal" data-target="#modalAddFornecedor">
+            Adicionar fornecedor<i class="bi bi-plus"></i>    
+    </button>
+    </form>
+
+
+<!-- Modal para adição de produto -->
+<div class="modal fade" id="modalAddFornecedor" tabindex="-1" role="dialog" aria-labelledby="modalAddFornecedorLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Adicionar um fornecedor</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+  <form method="POST">
+    <div class="modal-body">
+        <label for="razao_social">Razão Social</label>
+        <input type="text" id="razao_social" class="form-control" name="razao_social">
+        <label for="email">Email</label>
+        <input type="text" id="email" class="form-control" name="email">
+        <label for="telefone">Telefone</label>
+        <input type="text" class="form-control" name="telefone" id="telefone">
+        <label for="site">Site</label>
+        <input type="text" class="form-control" name="site" id="site">
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      <button type="submit" class="btn btn-success" name="newFornecedor" value="newFornecedor">Adicionar</button>
+    </div>     
+  </div>    
+  </form>
+</div>
+</div>
+</div>
+
+<!-- Modal para edição de produto -->
+<div class="modal fade" id="modalEditFornecedor" tabindex="-1" role="dialog" aria-labelledby="modalEditFornecedorLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editer um fornecedor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    
+    
+      <form method="POST">
+        <div class="modal-body">
+            <input type="hidden" class="form-control" id="idEdit" name="idEdit">
+
+            <label for="razao_socialEdit">Razão Social</label>
+            <input type="text" id="razao_socialEdit" class="form-control" name="razao_socialEdit">
+            <label for="emailEdit">Email</label>
+            <input type="text" id="emailEdit" class="form-control" name="emailEdit">
+            <label for="telefoneEdit">Telefone</label>
+            <input type="text" class="form-control" name="telefoneEdit" id="telefoneEdit">
+            <label for="siteEdit">Site</label>
+            <input type="text" class="form-control" name="siteEdit" id="siteEdit">
+    
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success" name="editFornecedor" value="editFornecedor">Editar</button>
+        </div>     
+      </div>    
+      </form>
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

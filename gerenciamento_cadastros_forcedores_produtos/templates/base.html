@@ -13,15 +13,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
 
     {% block title %}
-      <title>Task List - Gerencie suas tarefas do dia</title>
+      <title>Lista de produtos</title>
     {% endblock %}
     
   </head>
   <body>
+    <div class="circle btn-danger" id="circle1"></div>
+    <div class="circle btn-success" id="circle2"></div>
+
     <div class="container">
     {% block menu %}
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Task List</a>
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="{{ url_for('home') }}">Task List</a>
+            <a href="{{ url_for('fornecedores') }}" class="nav-link">Fornecedores</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
