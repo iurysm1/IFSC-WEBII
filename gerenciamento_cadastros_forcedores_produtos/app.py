@@ -51,9 +51,10 @@ def home():
                 db.session.commit()
             else:
                 flash("Nome da tarefa tem que ter mais de 2 letras!", category="error")
-        elif request.form.get("edit"):
+        elif request.form.get("editFornecedor"):
             fornecedores=Fornecedor.query.all()
             id = request.form.get("productIdEdit")
+            id_fornecedor=None
             produto = db.session.get(Produto, id)
             produto.nome = request.form.get("productNameEdit")
             produto.preco = request.form.get("productPriceEdit")
@@ -61,9 +62,14 @@ def home():
             for fornecedorAtual in fornecedores:
                 if request.form.get("fe"+str(fornecedorAtual.id))=="clicked":
                     produto.fornecedor_id=fornecedorAtual.id        
+                    id_fornecedor=fornecedorAtual.id
+
                     #usei a mesma lógica para marcar se a task foi feita
                     flash("Produto Alterado.")
                     db.session.commit()
+            if id_fornecedor is None:
+                    flash("Escolha um fornecedor!", category="error")
+                    
             
         elif request.form.get("newProduct"):
             print('new')
