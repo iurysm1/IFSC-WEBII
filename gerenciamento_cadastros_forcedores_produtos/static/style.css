@@ -1,14 +1,19 @@
 .container {
     text-align: center;
     width: 70%;
-    height: 90vh;
+    height: 80vh;
+    max-height: 650px;
     background-color: rgba(255, 255, 255, 0.041);
     padding: 15px;
     border-radius: 5px;
     backdrop-filter: blur(10px);
-    z-index: 1;
     position: absolute;
     box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.253);
+    overflow: auto;
+}
+
+.card{
+    background-color: rgba(255, 255, 255, 0.041);
 }
 
 .container *{
@@ -16,40 +21,48 @@
 
 }
 
-.circle{
+body .circle{
     width: 200px;
     height: 200px;
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 0;
-    animation: jump 3s linear infinite;
+    animation: floating 3000ms infinite linear;
     box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.253);
 }
 
-@keyframes jump {
+@keyframes floating {
     0% {
-        transform: translateY(0px) !important;
+      transform: translateY(0px);
     }
-    50%{
-        transform: translateY(-10px) !important;
+  
+    50% {
+      transform: translateY(-10px);
     }
+  
     100% {
-        transform: translateY(0px) !important;
+      transform: translateY(0px);
     }
-}
+  }
 
 #circle1{
-    right: 25%;
-    bottom: 40%;
+    right: 24%;
+    bottom: 33%;
+    background-image: linear-gradient( to left, rgb(0, 106, 226), rgba(72, 158, 192, 0.959));
 }
 
 #circle2{
-    left: 25%;
-    top: 40%;
+    left: 24%;
+    top: 33%;
     animation-delay: 1s;
+    background-image: linear-gradient(to right, rgba(255, 94, 0, 0.959) ,rgba(255, 125, 50, 0.959) );
+
 }
 
+input,nav, button, card{
+    box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.253) !important;
+
+}
 
 input, nav{
     background-color: rgb(51, 51, 51) !important;
@@ -77,15 +90,20 @@ body{
 .btn-success{
     background-color: rgba(81, 238, 141, 0.959) !important;
     border: rgba(81, 238, 141, 0.959);
+    z-index: 4;
+
 }
 
 .btn-primary{
     background-color: rgba(72, 158, 192, 0.959) !important;
     border: rgba(72, 158, 192, 0.959);
+    z-index: 3;
+
 }
 
 .btn-danger{
     background-color: rgba(255, 125, 50, 0.959) !important;
     border: rgba(255, 125, 50, 0.959);
+    z-index: 2;
 }
 
