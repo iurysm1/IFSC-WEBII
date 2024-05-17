@@ -1,3 +1,3 @@
-Para todos os projeto faça o instal dos requerimentos.
+Para todos os projeto faça a instalação dos requerimentos.
 
 >> pip install -r requirements.txt
